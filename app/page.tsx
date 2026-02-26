@@ -56,29 +56,52 @@
 //   );
 // }
 
+// "use client";
+// import { BetSlip } from "@/components/features/BetSlip";
+// import { Button } from "@/components/ui/Button";
+// import { useBetSlipStore } from "@/store/betSlipStore";
+
+// export default function Home() {
+//   const addBet = useBetSlipStore((state) => state.addBet);
+
+//   const handleAddTestBet = () => {
+//     addBet({
+//       id: crypto.randomUUID(),
+//       match: "Manchester United vs Chelsea",
+//       outcome: "Manchester United to win",
+//       odds: 2.5,
+//       stake: 10,
+//     });
+//   };
+//   return (
+//     <div className="flex min-h-screen flex-col items-center justify-center gap-8">
+//       <Button variant="primary" onClick={handleAddTestBet}>
+//         + Add Test Bet
+//       </Button>
+//       <BetSlip />
+//     </div>
+//   );
+// }
 "use client";
+
 import { BetSlip } from "@/components/features/BetSlip";
-import { Button } from "@/components/ui/Button";
-import { useBetSlipStore } from "@/store/betSlipStore";
+import { EventCard } from "@/components/features/EventCard";
+import { mockMatches } from "@/lib/mockData";
 
 export default function Home() {
-  const addBet = useBetSlipStore((state) => state.addBet);
-
-  const handleAddTestBet = () => {
-    addBet({
-      id: crypto.randomUUID(),
-      match: "Manchester United vs Chelsea",
-      outcome: "Manchester United to win",
-      odds: 2.5,
-      stake: 10,
-    });
-  };
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-8">
-      <Button variant="primary" onClick={handleAddTestBet}>
-        + Add Test Bet
-      </Button>
-      <BetSlip />
+    <div className="flex min-h-screen gap-8 p-8">
+      <div className="flex-1 flex flex-col gap-4">
+        <h1 className="text-white text-2xl font-bold">Events</h1>
+        {mockMatches.map((match) => (
+          <EventCard key={match.id} match={match} />
+        ))}
+      </div>
+
+      <div className="w-80 shrink-0">
+        <h2 className="text-white text-2xl font-bold mb-4">Bet Slip</h2>
+        <BetSlip />
+      </div>
     </div>
   );
 }

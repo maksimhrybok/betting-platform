@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface Bet {
   id: string;
+  outcomeId: string;
   match: string;
   outcome: string;
   odds: number;
@@ -19,7 +20,11 @@ interface BetSlipStore {
 
 export const useBetSlipStore = create<BetSlipStore>((set, get) => ({
   bets: [],
-  addBet: (bet) => set((state) => ({ bets: [...state.bets, bet] })),
+  addBet: (bet) => {
+    const already = get().bets.some((b) => b.outcomeId === bet.outcomeId);
+    if (already) return;
+    set((state) => ({ bets: [...state.bets, bet] }));
+  },
   removeBet: (id) =>
     set((state) => ({ bets: state.bets.filter((bet) => bet.id !== id) })),
   clearBets: () => set({ bets: [] }),
