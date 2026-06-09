@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
+import { Navbar } from "@/components/layout/Navbar";
 
 import "./globals.css";
 
@@ -15,8 +17,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <QueryProvider>{children}</QueryProvider>
+      <body className="bg-slate-900 min-h-screen">
+        <QueryProvider>
+          <AuthProvider>
+            <Navbar />
+            {children}
+          </AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   );

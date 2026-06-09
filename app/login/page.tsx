@@ -2,9 +2,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
+import { useAuthStore } from "@/store/authStore";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -14,6 +16,8 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const router = useRouter();
+  const login = useAuthStore((state) => state.login);
   const {
     register,
     handleSubmit,
@@ -23,7 +27,10 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log("Form Data:", data);
+    // Simulate a short loading delay for demo purposes
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    login(data.email);
+    router.push("/");
   };
 
   return (
